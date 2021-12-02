@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 
-namespace AoC_2a
+namespace AoC_2b
 {
     class Program
     {
         static void Main(string[] args)
         {
-            int horiz = 0, vert = 0;
-            foreach (var line in File.ReadLines(@"../../../input.txt"))
+            int horiz = 0, aim = 0, vert = 0;
+            foreach (var line in File.ReadLines(@"./input.txt"))
             {
                 var instructions = line.Split(" ");
                 var direction = instructions[0];
@@ -17,12 +17,13 @@ namespace AoC_2a
                 {
                     case "forward":
                         horiz += amount;
+                        vert += amount * aim; 
                         break;
                     case "up":
-                        vert -= amount;
+                        aim -= amount;
                         break;
                     case "down":
-                        vert += amount;
+                        aim += amount;
                         break;
                 }
                 
