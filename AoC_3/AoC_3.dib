@@ -29,6 +29,61 @@ foreach (var col in cols)
 {
     mostCommon += col.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
     leastCommon += (mostCommon.Substring(mostCommon.Length -1, 1) == "0")? "1":"0";
+    //Console.WriteLine(col.Count(x => x == '0'));
 }
 Console.WriteLine($"{mostCommon}, {leastCommon}");
 Console.WriteLine($"{Convert.ToInt32(mostCommon,2) * Convert.ToInt32(leastCommon,2)}")
+
+#!markdown
+
+## Part 2  
+
+#!csharp
+
+using System;
+using System.IO;
+using System.Linq;
+
+var values = new List<string>(File.ReadLines(@"./AoC_3/input.txt"));
+var filteredValuesMC = new List<string>(values);
+var filteredValuesLC = new List<string>(values);
+
+string finalMCVal = "", finalLCVal = "";
+
+for (int i = 0; i < 12; i++)
+{
+    int mcOneCount = 0, mcZeroCount = 0;
+    foreach (var val in filteredValuesMC)
+    {
+        if (val[i] == '1') mcOneCount++;
+        else mcZeroCount++;
+    }
+    if (mcOneCount >= mcZeroCount)
+    {
+        filteredValuesMC = filteredValuesMC.Where(x => x[i] == '1').ToList();
+    } else{
+        filteredValuesMC = filteredValuesMC.Where(x => x[i] == '0').ToList();
+    }
+    if (filteredValuesMC.Count == 1){
+        finalMCVal += filteredValuesMC[0];
+    }
+
+    int lcOneCount = 0, lcZeroCount = 0;
+    foreach (var val in filteredValuesLC)
+    {
+        if (val[i] == '1') lcOneCount++;
+        else lcZeroCount++;
+    }
+    if (lcOneCount >= lcZeroCount)
+    {
+        filteredValuesLC = filteredValuesLC.Where(x => x[i] == '0').ToList();
+    } else{
+        filteredValuesLC = filteredValuesLC.Where(x => x[i] == '1').ToList();
+    }
+    if (filteredValuesLC.Count == 1){
+        finalLCVal += filteredValuesLC[0];
+    }
+}
+
+Console.WriteLine($"{finalMCVal}, {finalLCVal}");
+Console.WriteLine($"{Convert.ToInt32(finalMCVal,2) * Convert.ToInt32(finalLCVal,2)}")
