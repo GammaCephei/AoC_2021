@@ -1,0 +1,34 @@
+#!markdown
+
+# Advent of Code Day 3 Solutions  
+  
+https://adventofcode.com/2021/day/3
+
+#!csharp
+
+using System;
+using System.IO;
+using System.Linq;
+
+List<string> cols = new List<string>( new string[12]);
+
+foreach (var line in File.ReadLines(@"./AoC_3/input.txt"))
+{
+    int index = 0;
+    foreach (char c in line)
+    {
+        cols[index] = cols[index] + c;
+        index++;
+    }
+}
+
+string mostCommon = "";
+string leastCommon = "";
+
+foreach (var col in cols)
+{
+    mostCommon += col.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
+    leastCommon += (mostCommon.Substring(mostCommon.Length -1, 1) == "0")? "1":"0";
+}
+Console.WriteLine($"{mostCommon}, {leastCommon}");
+Console.WriteLine($"{Convert.ToInt32(mostCommon,2) * Convert.ToInt32(leastCommon,2)}")
