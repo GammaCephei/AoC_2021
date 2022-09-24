@@ -1,0 +1,25 @@
+#!csharp
+
+using System;
+using System.IO;
+
+var drawnVals = File.ReadLines(@"input.txt").Take(1).First().Split(",").Select(int.Parse).ToList();
+int[][] bingoCards;
+int cardNumber = 0, num = 0;
+
+foreach(var line in File.ReadLines(@"input.txt").Skip(2))
+{
+    num = 0;
+    if (!string.IsNullOrEmpty(line)){
+        cardNumber++;
+    }
+    var values = line.Split(" ").ToList();
+    Console.WriteLine(values);
+
+    foreach (var val in values){
+        bingoCards[cardNumber][num] = Int32.Parse(val);
+        num++;
+    }
+    
+}
+Console.WriteLine(bingoCards[0][0]);
